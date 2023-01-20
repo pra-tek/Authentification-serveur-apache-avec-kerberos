@@ -2,7 +2,7 @@
 Dans ce référentiel, nous avons tentés de mettre en place une authentification du serveur web apache graçe au protocole **Kerberos**.
 
 # Configuration de Kerberos dur Ubuntu
-**Kerberos** est un protocole d’authentification qui prend en charge le concept d’authentification unique (SSO). Après s’être authentifiés une fois au début d’une session, les utilisateurs peuvent accéder aux services réseau dans un domaine Kerberos sans s’authentifier à nouveau. Pour que cela fonctionne, il est nécessaire d’utiliser des protocoles réseau compatibles Kerberos.
+[**Kerberos**](https://fr.scribd.com/presentation/205732355/Kerberos) est un protocole d’authentification qui prend en charge le concept d’authentification unique (SSO). Après s’être authentifiés une fois au début d’une session, les utilisateurs peuvent accéder aux services réseau dans un domaine Kerberos sans s’authentifier à nouveau. Pour que cela fonctionne, il est nécessaire d’utiliser des protocoles réseau compatibles Kerberos.
 Dans le cas de HTTP, la prise en charge de Kerberos est généralement fournie à l’aide du mécanisme d’authentification **SPNEGO** (Simple and Protected GSS-API Negotiation). Ceci est également connu sous le nom d'«authentification intégrée » ou « authentification de négociation ». Apache ne supporte pas SPNEGO lui-même, mais le support peut être ajouté au moyen du module d’authentification. `mod_auth_kerb`
 
 ![Kerberos en Image](Capture%20d'%C3%A9cran/Kerberos-Protocol.jpg)
@@ -11,7 +11,7 @@ Dans le cas de HTTP, la prise en charge de Kerberos est généralement fournie �
 # Hôtes et adresse ip
 
 Nous n'avons pas nécéssairement besoin de trois machines pour celà. Une machine peut tout à fait contennir deux rôles ( **KDC** et **server**). Mais dans notre cas, nous avons utilisé trois machines virtuelles sur [VmWare Workstation Pro](https://www.vmware.com/fr/products/workstation-pro/workstation-pro-evaluation.html/). Nos machines étant soit une distribution basé sur ubuntu, soit ubuntu.
-Nos machines étant toutes les trois virtuelles, Nous n'avons pas eu besoin de modifier l'adaptateur réseau par defaut (** NAT **) pour les attribuer des addresses ip; Vm Ware s'en est chargé.
+Nos machines étant toutes les trois virtuelles, Nous n'avons pas eu besoin de modifier l'adaptateur réseau par defaut (**NAT**) pour les attribuer des addresses ip; Vm Ware s'en est chargé.
 
 Nous pouvons vérifier les adresses IP des trois machines en les exécutant dans chacune d’elles.hostname -I
 
@@ -86,7 +86,6 @@ Exemple sur la machine cliente:
 
 Voici les packages à installer sur la KDC:
 ```
-
    $ sudo apt-get update
    $ sudo apt-get install krb5-kdc krb5-admin-server krb5-config
 ```
@@ -100,6 +99,37 @@ Lors de l’installation, il nous sera demandé de configurer:
    
    * le server administratif du royaume: 'kdc.tek-up.de'
    ![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
+   
+   * fin d'installation
+   ![kdc](/Capture%20d'%C3%A9cran/Kdc/6.png)
+
+**Royaume** ou **Realm** est un réseau logique, similaire à un domaine, auquel appartiennent tous les utilisateurs et serveurs partageant la même base de données Kerberos.
+
+La clé principale de cette base de données KDC doit être définie une fois l’installation terminée :
+```
+sudo krb5_newrealm
+```
+![kdc](/Capture%20d'%C3%A9cran/Kdc/7.png)
+
+Les utilisateurs et les services d’un domaine sont définis comme un principal dans Kerberos. Ces principaux sont gérés par un utilisateur admin que nous devons créer manuellement :
+```
+    $ sudo kadmin.local
+    kadmin.local:  add_principal root/admin
+```
+![kdc](/Capture%20d'%C3%A9cran/Kdc/8.png)
+
+kadmin.local est un programme d’administration de base de données KDC. Nous avons utilisé cet outil pour créer un nouveau principal dans le domaine TEK-UP.DE(). `add_principal`
+
+Nous pouvons vérifier si l’utilisateur "root/admin" a été créé avec succès en exécutant la commande: ``kadmin.local: list_principals``
+Nous devrions voir le principal 'root/admin@TEK-UP.DE' répertorié avec d’autres principaux par défaut.
+
+![kdc](/Capture%20d'%C3%A9cran/Kdc/9.png)
+
+
+![kdc](/Capture%20d'%C3%A9cran/Kdc/10.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/11.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/12.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/13.png)
 
 
 # Réference et  Inspiration
@@ -112,4 +142,4 @@ Ne sachant pas vraiment par ou commencer, je me suis inspirer de:
     * [Pratique](https://youtu.be/vx2vIA2Ym14)
 
 * Installation et configuration et mise en place d'un server web Apache2:
-    * [Grafikart](https://youtu.be/arVwa7jvp5M))
+    * [Mettre en place un server web apache](https://youtu.be/arVwa7jvp5M))
