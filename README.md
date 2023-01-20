@@ -412,7 +412,7 @@ sudo klist -kt /etc/krb5.keytab
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/33.png)
 
 **NB**:
-> La ``require valid user`` doit rester commenter ou ne même pas exister, sauf si vous voulez definir une liste d'utilisateur spécifique.
+> La ``require valid-user`` doit rester commenter ou ne même pas exister, sauf si vous voulez definir une liste d'utilisateur spécifique.
 
 
 ## Le client
