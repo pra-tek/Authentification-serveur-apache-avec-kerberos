@@ -89,19 +89,19 @@ Voici les packages à installer sur la KDC:
 $ sudo apt update
 $ sudo apt install krb5-kdc krb5-admin-server krb5-config
 ```
-Lors de l’installation, il nous sera demandé de configurer:
+*Lors de l’installation, il nous sera demandé de configurer:
 
-   * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
-   ![kdc](Capture%20d'%C3%A9cran/Kdc/3.png)
+  * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
+![kdc](Capture%20d'%C3%A9cran/Kdc/3.png)
    
-   * le serveur Kerberos: 'kdc.tek-up.de'
-   ![kdc](/Capture%20d'%C3%A9cran/Kdc/4.png)
+  * le serveur Kerberos: 'kdc.tek-up.de'
+![kdc](/Capture%20d'%C3%A9cran/Kdc/4.png)
    
-   * le serveur administratif du royaume: 'kdc.tek-up.de'
-   ![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
+  * le serveur administratif du royaume: 'kdc.tek-up.de'
+![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
    
-   * fin d'installation
-   ![kdc](/Capture%20d'%C3%A9cran/Kdc/6.png)
+  * fin d'installation
+![kdc](/Capture%20d'%C3%A9cran/Kdc/6.png)
 
 **Royaume** ou **Realm** est un réseau logique, similaire à un domaine, auquel appartiennent tous les utilisateurs et serveurs partageant la même base de données Kerberos.
 
@@ -210,13 +210,14 @@ Les fichiers et dossiers necessaires à la configuration  des sites webs au trav
       
 * **NB**:
 > Apache lit les fichier de  configuration pas ordre numérique de 000 à XXX.
-      ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/9.png)
+
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/9.png)
    
 * Le dossier ``sites-enabled``:
       
 > Contenant les fichiers  des sites actif sur le serveur.
       
-   ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/5.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/5.png)
    
 ### Configuration du serveur pour  notre site
 
@@ -232,7 +233,7 @@ $ sudo mkdir /var/www/cyberias
 $ sudo chown -R www-data:www-data /var/www/cyberias/
 $ ls /var/www/cyberias -la
 ```
-         ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/7.png)
+ ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/7.png)
 
 * Créons le fichier de configuration de notre site:
 ```
@@ -240,93 +241,94 @@ $ sudo vim sites-available/001-cyberias.conf
 ou bien
 $ sudo vim /etc/apache2/sites-available/001-cyberias.conf
 ```
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/19.png)
-+ Configurons:
-		![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/15.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/19.png)
+  * Configurons:
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/15.png)
 
 * Apache  possède un outils  de verification des fichiers de configurations nommé ``configtest``, qui éffectu un test de ces fichiers (la syntaxe, indentation, etc ...). Il est accéssible par la commande:
 ```
 $ /usr/sbin/apachectl configtest
 ```
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/10.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/10.png)
 
 * Nous devons activer notre site web. En créant un lien symbolique ``sites-available`` vers ``sites-enabled`` graçe à la commande:
 ```
 $ sudo a2ensite 001-cyberias
 ```
-         ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/20.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/20.png)
 	
 * Nous avons créer un fichier ``.htaccess`` pour la gérer la réecriture de notre url. afin que chaque fois que nous tapons ``www.cyberias.com`` l'url est reécrit en ``cyberias.git``
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/11.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/11.png)
          
 * Pour éviter les érreurs ``FORBIDEN`` à cause de l'absance du fichier ou plutôt de lien symbolique de **rewrite** dans ``mods-enabled``, nous avons activer le module rewrite.
-        ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/12.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/12.png)
 	    
-        ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/13.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/13.png)
             
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/14.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/14.png)
       
 * Nous avons modifier le fichier de configuration de la page par defaut afin qu'elle pointe ver notre site.
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/16.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/16.png)
          
-+ Vérifions l'effectiviter de notre config dans ``sites-enabled/``:
+  * Vérifions l'effectiviter de notre config dans ``sites-enabled/``:
 	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/22.png)
       
-+ pour que nos modification soit prise en compte, nous devons redemarrer notre serveur:
+  * pour que nos modification soit prise en compte, nous devons redemarrer notre serveur:
 ```
 $ sudo systemctl reload apache2
 ```
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/21.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/21.png)
            
 ### Configuration Kerberos
 
 * Installation des Packages nécessaires:
-+ le package ``libapache2-mod-auth-kerb`` 
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/23.png)
-* le package ``krb5-user``
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/29.png)
+  * le package ``libapache2-mod-auth-kerb`` 
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/23.png)
+  * le package ``krb5-user``
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/29.png)
 
 * Configuration de l'installation:
-+ Le royaume:
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/24.png)
-+ Le serveur kerberos:
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/25.png)
-+ Le serveur administrateur du royaume:
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/26.png)
+  * Le royaume:
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/24.png)
+  * Le serveur kerberos:
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/25.png)
+  * Le serveur administrateur du royaume:
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/26.png)
 
 #### Préparation du fichier keytab
 
 Nous devons extraire le principal du service de la base de données des principaux KDC  dans un fichier keytab.
+
 * Dans la machine KDC, exécutons la commande suivantes pour générer le fichier keytab:
 ```
 $ sudo kadmin.local
 kadmin.local: ktadd HTTP/apacheserver.tek-up.de@TEK-UP.DE
 kadmin.local: q
 ```
-	![kdc](/Capture%20d'%C3%A9cran/Kdc/14.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/14.png)
 
 * Vérifions que notre keytab a été créer, graçe à l'utilitaire ``klist``:
 ```
 sudo klist -kt /etc/krb5.keytab
 ```
-	![kdc](/Capture%20d'%C3%A9cran/Kdc/15.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/15.png)
 
 * Envoyez le fichier keytab de la machine KDC à la machine du serveur:
 ! Nous devons avoir openssh-server package installé sur le serveur:
 ``sudo apt install openssh-server``
-	![kdc](/Capture%20d'%C3%A9cran/Kdc/16.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/16.png)
 
 * Vérifiez que le principal du service a été extrait avec succès de la base de données KDC:
 
-+ Répertorier la liste de clés actuelle:
+  * Répertorier la liste de clés actuelle:
 ``ktutil:  list``
 
-+ Lire un keytab krb5 dans la liste de touches actuelle
+  * Lire un keytab krb5 dans la liste de touches actuelle
 ``ktutil:  read_kt /home/orphe/Bureau/krb5.keytab``
       
-+ Répertorier à nouveau la liste de clés actuelle
+  * Répertorier à nouveau la liste de clés actuelle
 ``ktutil:  list``
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/30.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/30.png)
 
 #### Configuration de notre site :
 
@@ -343,7 +345,7 @@ sudo klist -kt /etc/krb5.keytab
 	require valid-user
 </Location>
 ```
-	![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/31.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/31.png)
 
 
 ## Le client
@@ -376,7 +378,7 @@ Notre serveur est bien accessible dépuis la machine cliente:
 * Et vérifiez le ticket d’octroi de ticket (TGT) :
 ``$ klist``
 
-	![client](Capture%20d'%C3%A9cran/Client/15.png)
+![client](Capture%20d'%C3%A9cran/Client/15.png)
 
 
 # Réference de travail
