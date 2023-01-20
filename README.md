@@ -5,7 +5,7 @@ Dans ce référentiel, nous avons tentés de mettre en place une authentificatio
 **Kerberos** est un protocole d’authentification qui prend en charge le concept d’authentification unique (SSO). Après s’être authentifiés une fois au début d’une session, les utilisateurs peuvent accéder aux services réseau dans un domaine Kerberos sans s’authentifier à nouveau. Pour que cela fonctionne, il est nécessaire d’utiliser des protocoles réseau compatibles Kerberos.
 Dans le cas de HTTP, la prise en charge de Kerberos est généralement fournie à l’aide du mécanisme d’authentification **SPNEGO** (Simple and Protected GSS-API Negotiation). Ceci est également connu sous le nom d'«authentification intégrée » ou « authentification de négociation ». Apache ne supporte pas SPNEGO lui-même, mais le support peut être ajouté au moyen du module d’authentification. `mod_auth_kerb`
 
-![Kerberos en Image](https://github.com/pra-tek/Authentification-serveur-apache-avec-kerberos/blob/main/Capture%20d'%C3%A9cran/Kerberos-Protocol.jpg)
+![Kerberos en Image](Capture%20d'%C3%A9cran/Kerberos-Protocol.jpg)
 
 
 # Hôtes et adresse ip
@@ -25,26 +25,81 @@ Définissons des noms d’hôte pour chaque machine :
 
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/1.png)
 
-![kdc](asset/Capture%20d'%C3%A9cran/Kdc/1.png)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/1.png)
 
-![client](https://github.com/pra-tek/Authentification-serveur-apache-avec-kerberos/blob/main/Capture%20d'%C3%A9cran/Client/1.png)
+![client](Capture%20d'%C3%A9cran/Client/1.png)
+
+Nous pouvons vérifier les adresses IP des trois machines en les exécutant dans chacune d’elles. `hostname -I`
 
 !! Étant donné que le protocole Kerberos implique un horodatage, les horloges des trois machines doivent être synchronisées.
 
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/0.png)
 
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+![kdc](/Capture%20d'%C3%A9cran/Kdc/0.png)
 
+![client](Capture%20d'%C3%A9cran/Client/0.png)
+
+* Machine server web
+`hostnamectl --static set-hostname apacheserver.tek-up.de`
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/1.png)
+
+* Machine KDC
+`hostnamectl --static set-hostname kdc.tek-up.de`
+![kdc](/Capture%20d'%C3%A9cran/Kdc/1.png)
+
+* Machine cliente
+`hostnamectl --static set-hostname client.tek-up.de`
+![client](Capture%20d'%C3%A9cran/Client/1.png)
+
+Nous pouvons vérifier le nom d’hôte d’une machine en exécutant la commande: `hostname`
+
+Ensuite, nous allons mapper ces noms d’hôte à leurs adresses IP correspondantes sur les trois machines à l’aide du fichier `/etc/hosts`.
+Maintenant, nous devons définir ci-dessous les informations sur /etc/hosts pour les trois machines :
+```
+<KDC_IP_ADDRESS>    kdc.tek-up.de       kdc
+<APACHE_SERVER_ADDRESS>    apacheserver.tek-up.de        apacheserver
+<CLIENT_ADDRESS>    client.tek-up.de    client
+```
+
+* Machine server web
+`$ sudo vim /etc/hosts` ou `$ sudo nano /etc/hosts`
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/2.png)
+
+* Machine KDC
+`$ sudo vim /etc/hosts` ou `$ sudo nano /etc/hosts`
+![kdc](/Capture%20d'%C3%A9cran/Kdc/2.png)
+
+* Machine cliente
+`$ sudo vim /etc/hosts` ou `$ sudo nano /etc/hosts`
+![client](Capture%20d'%C3%A9cran/Client/2.png)
+
+Une fois la configuration terminée, nous pouvons vérifier si les trois machines sont accessibles graçe à la commande `ping`.
+
+Exemple sur la machine cliente:
+
+![client](Capture%20d'%C3%A9cran/Client/6.png)
+
+![client](Capture%20d'%C3%A9cran/Client/7.png)
+
+
+# Configuration de la machine Centre de Distribution de Clés (KDC):
+
+Voici les packages à installer sur la KDC:
+```
+
+   $ sudo apt-get update
+   $ sudo apt-get install krb5-kdc krb5-admin-server krb5-config
+```
+Lors de l’installation, il nous sera demandé de configurer:
+
+   * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
+   ![kdc](Capture%20d'%C3%A9cran/Kdc/3.png)
+   
+   * le serveur Kerberos: 'kdc.tek-up.de'
+   ![kdc](/Capture%20d'%C3%A9cran/Kdc/4.png)
+   
+   * le server administratif du royaume: 'kdc.tek-up.de'
+   ![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
 
 
 # Réference et  Inspiration
