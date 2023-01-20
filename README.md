@@ -188,9 +188,9 @@ $ sudo apt install curl
 ```
 Les fichiers et dossiers necessaires à la configuration  des sites webs au travers des hôtes virtuels sont dans ``/etc/apache2``. ceux nous intéressant sont:
 	
-	* Le fichier ``apache2.conf``:
+* Le fichier ``apache2.conf``:
       
-		Contenant la configurations par defauts d'apache.
+> Contenant la configurations par defauts d'apache.
    
 	* Le dossier ``conf-available``:
       
