@@ -418,6 +418,7 @@ sudo klist -kt /etc/krb5.keytab
 ## Le client
 
 Notre serveur est bien accessible dépuis la machine cliente:
+
 ![client](Capture%20d'%C3%A9cran/Client/3.png)
 
 ![client](Capture%20d'%C3%A9cran/Client/3--1.png)
@@ -454,6 +455,16 @@ Notre serveur est bien accessible dépuis la machine cliente:
 ``$ klist``
 
 > Si elle ne contient pas une liste d'utilisateur et n'est plus commenter, le client ne poura pas accerder au serveur.
+
+Pour accéder au serveur après l'implémentation de Kerberos, utiliser :
+
+```
+curl --negociate -u : apacheserver
+ou
+curl --negociate -u : apacheserver.tek-up.de
+ou encore
+curl --negociate -u : 192.168.111.134
+``` 
 
 ![client](Capture%20d'%C3%A9cran/Client/16.png)
 
