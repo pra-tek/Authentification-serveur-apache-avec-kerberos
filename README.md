@@ -358,12 +358,12 @@ Notre serveur est bien accessible dépuis la machine cliente:
 * Installation de ``krb5-user``:
 	![client](Capture%20d'%C3%A9cran/Client/9.png)
 
-+ Le royaume:
-	![client](Capture%20d'%C3%A9cran/Client/10.png)
-+ Le serveur kerberos:
-	![client](Capture%20d'%C3%A9cran/Client/11.png)
-+ le serveur administratif:
-	![client](Capture%20d'%C3%A9cran/Client/12.png)
+  * Le royaume:
+![client](Capture%20d'%C3%A9cran/Client/10.png)
+  * Le serveur kerberos:
+![client](Capture%20d'%C3%A9cran/Client/11.png)
+  * le serveur administratif:
+![client](Capture%20d'%C3%A9cran/Client/12.png)
 
 ### Authentification du client
 
