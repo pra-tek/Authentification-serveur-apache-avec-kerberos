@@ -34,16 +34,19 @@ Définissons des noms d’hôte pour chaque machine :
 * Machine server web
 
 `hostnamectl --static set-hostname apacheserver.tek-up.de`
+
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/1.png)
 
 * Machine KDC
 
 `hostnamectl --static set-hostname kdc.tek-up.de`
+
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/1.png)
 
 * Machine cliente
 
 `hostnamectl --static set-hostname client.tek-up.de`
+
 ![client](Capture%20d'%C3%A9cran/Client/1.png)
 
 Nous pouvons vérifier le nom d’hôte d’une machine en exécutant la commande: `hostname`
@@ -97,15 +100,19 @@ $ sudo apt install krb5-kdc krb5-admin-server krb5-config
 * Lors de l’installation, il nous sera demandé de configurer:
 
   * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
+
 ![kdc](Capture%20d'%C3%A9cran/Kdc/3.png)
    
   * le serveur Kerberos: 'kdc.tek-up.de'
+
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/4.png)
    
   * le serveur administratif du royaume: 'kdc.tek-up.de'
+
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
    
   * fin d'installation
+
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/6.png)
 
 **Royaume** ou **Realm** est un réseau logique, similaire à un domaine, auquel appartiennent tous les utilisateurs et serveurs partageant la même base de données Kerberos.
@@ -115,6 +122,7 @@ La clé principale de cette base de données KDC doit être définie une fois l�
 ```
 sudo krb5_newrealm
 ```
+
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/7.png)
 
 Les utilisateurs et les services d’un domaine sont définis comme un principal dans Kerberos. Ces principaux sont gérés par un utilisateur admin que nous devons créer manuellement :
@@ -398,11 +406,13 @@ sudo klist -kt /etc/krb5.keytab
 	KrbMethodNegotiate on
 	KrbMethodK5Passwd off
 	Krb5Keytab /home/orphe/Bureau/krb5.keytab
-	require valid-user
 </Location>
 ```
 
-![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/31.png)
+![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/33.png)
+
+**NB**:
+> La ``require valid user`` doit rester commenter ou ne même pas exister, sauf si vous voulez definir une liste d'utilisateur spécifique.
 
 
 ## Le client
@@ -438,11 +448,22 @@ Notre serveur est bien accessible dépuis la machine cliente:
 * Initialez ensuite l’authentification de l’utilisateur :
 ``$ kinit jean@TEK-UP.DE``
 
+![client](Capture%20d'%C3%A9cran/Client/15.png)
+
 * Et vérifiez le ticket d’octroi de ticket (TGT) :
 ``$ klist``
 
-![client](Capture%20d'%C3%A9cran/Client/15.png)
+> Si elle ne contient pas une liste d'utilisateur et n'est plus commenter, le client ne poura pas accerder au serveur.
 
+![client](Capture%20d'%C3%A9cran/Client/16.png)
+
+![client](Capture%20d'%C3%A9cran/Client/17.png)
+
+![client](Capture%20d'%C3%A9cran/Client/18.png)
+
+**La configuration est parfaite** le client à accès au serveur
+
+![client](Capture%20d'%C3%A9cran/Client/19.png)
 
 # Réference de travail
 
