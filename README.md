@@ -475,4 +475,4 @@ Notre serveur est bien accessible dépuis la machine cliente:
     * [Pratique](https://youtu.be/vx2vIA2Ym14)
 
 * La chaine **Grafikart** pour l'installation, la configuration et mise en place d'un server web Apache2:
-    * [Mettre en place un server web apache](https://youtu.be/arVwa7jvp5M))
+    * [Mettre en place un server web apache](https://youtu.be/arVwa7jvp5M)
