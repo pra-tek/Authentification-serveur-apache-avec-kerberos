@@ -443,15 +443,18 @@ Notre serveur est bien accessible dépuis la machine cliente:
 
 ### Authentification du client
 
-* Dans la machine cliente, vérifiez les informations d’identification mises en cache :
+* Dans la machine cliente, vérifiez les informations d’identification mises en cache:
+
 ``$ klist``
 
-* Initialez ensuite l’authentification de l’utilisateur :
+* Initialez ensuite l’authentification de l’utilisateur:
+
 ``$ kinit jean@TEK-UP.DE``
 
 ![client](Capture%20d'%C3%A9cran/Client/15.png)
 
-* Et vérifiez le ticket d’octroi de ticket (TGT) :
+* Et vérifiez le ticket d’octroi de ticket (TGT):
+
 ``$ klist``
 
 > Si elle ne contient pas une liste d'utilisateur et n'est plus commenter, le client ne poura pas accerder au serveur.
@@ -459,11 +462,11 @@ Notre serveur est bien accessible dépuis la machine cliente:
 Pour accéder au serveur après l'implémentation de Kerberos, utiliser :
 
 ```
-curl --negociate -u : apacheserver
+curl --negotiate -u : apacheserver
 ou
-curl --negociate -u : apacheserver.tek-up.de
+curl --negotiate -u : apacheserver.tek-up.de
 ou encore
-curl --negociate -u : 192.168.111.134
+curl --negotiate -u : 192.168.111.134
 ``` 
 
 ![client](Capture%20d'%C3%A9cran/Client/16.png)
@@ -474,16 +477,20 @@ curl --negociate -u : 192.168.111.134
 
 **La configuration est parfaite** le client à accès au serveur
 
-![client](Capture%20d'%C3%A9cran/Client/19.png)
+![Aperçu du site depuis un navigateur  web](Capture%20d'%C3%A9cran/Client/19.png)
 
 # Réference de travail
 
  * Pour la présentation sur github
+    
     * [Yorsa270](https://github.com/yosra270/postgresql-auth-with-kerberos/)
  
  * Mr Souheib de la chaine **Techwall** pour l'introduction à kerberos:
+    
     * [Théorique](https://youtu.be/DxlzvDNgkFg)
+    
     * [Pratique](https://youtu.be/vx2vIA2Ym14)
 
 * La chaine **Grafikart** pour l'installation, la configuration et mise en place d'un server web Apache2:
+    
     * [Mettre en place un server web apache](https://youtu.be/arVwa7jvp5M)
