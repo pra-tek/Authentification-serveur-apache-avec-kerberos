@@ -94,7 +94,7 @@ Voici les packages à installer sur la KDC:
 
 ```
 $ sudo apt update
-$ sudo apt install krb5-kdc krb5-admin-server krb5-config
+$ sudo apt install krb5-kdc  krb5-admin-server  krb5-config
 ```
 
 * Lors de l’installation, il nous sera demandé de configurer:
@@ -207,7 +207,7 @@ $ sudo systemctl status apache2
 Pour que notre serveur demarre automatiquement au démarrage de la machine, on doit executer la commande:
 
 ```
-$ sudo systemctl enable Apache2
+$ sudo systemctl enable apache2
 ```
 
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/4.png)
@@ -362,7 +362,6 @@ Nous devons extraire le principal du service de la base de données des principa
 ```
 $ sudo kadmin.local
 kadmin.local: ktadd HTTP/apacheserver.tek-up.de@TEK-UP.DE
-kadmin.local: q
 ```
 
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/14.png)
@@ -412,6 +411,7 @@ sudo klist -kt /etc/krb5.keytab
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/33.png)
 
 **NB**:
+
 > La ``require valid-user`` doit rester commenter ou ne même pas exister, sauf si vous voulez definir une liste d'utilisateur spécifique.
 
 
@@ -485,7 +485,7 @@ curl --negotiate -u : 192.168.111.134
     
     * [Yorsa270](https://github.com/yosra270/postgresql-auth-with-kerberos/)
  
- * Mr Souheib de la chaine **Techwall** pour l'introduction à kerberos:
+ * Mr Souheib Yousfi de la chaine **Techwall** pour l'introduction à kerberos:
     
     * [Théorique](https://youtu.be/DxlzvDNgkFg)
     
