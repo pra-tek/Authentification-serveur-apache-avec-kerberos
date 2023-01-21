@@ -475,9 +475,18 @@ curl --negotiate -u : 192.168.111.134
 
 ![client](Capture%20d'%C3%A9cran/Client/18.png)
 
-**La configuration est parfaite** le client à accès au serveur
+### La configuration est parfaite
 
-![Aperçu du site depuis un navigateur  web](Capture%20d'%C3%A9cran/Client/19.png)
+* Le client à accès au serveur
+
+  * Depuis le Terminal:
+
+![Aperçu du site depuis le terminal](Capture%20d'%C3%A9cran/Client/20.png)
+
+  * Depuis le Navigateur web:
+
+![Aperçu du site depuis le navigateur  web](Capture%20d'%C3%A9cran/Client/19.png)
+
 
 # Réference de travail
 
