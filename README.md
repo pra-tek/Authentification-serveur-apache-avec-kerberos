@@ -1,7 +1,9 @@
 # Authentification-serveur-apache-avec-kerberos
+
 Dans ce référentiel, nous avons tentés de mettre en place une authentification du serveur web apache graçe au protocole **Kerberos**.
 
-# Configuration de Kerberos dur Ubuntu
+# Introduction à Kerberos
+
 [**Kerberos**](https://fr.scribd.com/presentation/205732355/Kerberos) est un protocole d’authentification qui prend en charge le concept d’authentification unique (SSO). Après s’être authentifiés une fois au début d’une session, les utilisateurs peuvent accéder aux services réseau dans un domaine Kerberos sans s’authentifier à nouveau. Pour que cela fonctionne, il est nécessaire d’utiliser des protocoles réseau compatibles Kerberos.
 Dans le cas de HTTP, la prise en charge de Kerberos est généralement fournie à l’aide du mécanisme d’authentification **SPNEGO** (Simple and Protected GSS-API Negotiation). Ceci est également connu sous le nom d'«authentification intégrée » ou « authentification de négociation ». Apache ne supporte pas SPNEGO lui-même, mais le support peut être ajouté au moyen du module d’authentification. `mod_auth_kerb`
 
@@ -16,7 +18,9 @@ Nos machines étant toutes les trois virtuelles, Nous n'avons pas eu besoin de m
 Dans notre cas :
 
 * L’adresse IP de l’ordinateur client (machine virtuelle) est: **192.168.111.130**
+
 * L’adresse IP de la machine du serveur web (machines virtuelles) est: **192.168.111.134**
+
 * L’adresse IP de la machine KDC (machine virtuelle) est: **192.168.111.133**
 
 Nous pouvons vérifier les adresses IP des trois machines en les exécutant dans chacune d’elles. `hostname -I`
@@ -88,6 +92,8 @@ Exemple sur la machine cliente:
 
 # Configuration des machines:
 
+Nous allons dans cette section, configurer kerberos dans nos machines.
+
 ## Centre de Distribution de Clés (KDC):
 
 Voici les packages à installer sur la KDC:
@@ -99,19 +105,19 @@ $ sudo apt install krb5-kdc  krb5-admin-server  krb5-config
 
 * Lors de l’installation, il nous sera demandé de configurer:
 
-  * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
+   * le royaume: 'TEK-UP.DE' (doit être tout en majuscules)
 
 ![kdc](Capture%20d'%C3%A9cran/Kdc/3.png)
    
-  * le serveur Kerberos: 'kdc.tek-up.de'
+   * le serveur Kerberos: 'kdc.tek-up.de'
 
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/4.png)
    
-  * le serveur administratif du royaume: 'kdc.tek-up.de'
+   * le serveur administratif du royaume: 'kdc.tek-up.de'
 
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/5.png)
    
-  * fin d'installation
+   * fin d'installation
 
 ![kdc](/Capture%20d'%C3%A9cran/Kdc/6.png)
 
@@ -196,7 +202,7 @@ Installation de Apache2 :
  $ sudo apt install apache2 -y
 ```
 
-Suite à l'installation, le serveur Apache est déjà démarré, on peut le vérifier avec la commande ci-dessous. Cela permettra de voir qu'il est bien actif.
+Suite à l'installation, le serveur Apache2 est déjà démarré, on peut le vérifier avec la commande ci-dessous. Cela permettra de voir qu'il est bien actif.
 
 ```
 $ sudo systemctl status apache2
@@ -212,7 +218,7 @@ $ sudo systemctl enable apache2
 
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/4.png)
       
-Après l'installation, il est recommandé d'installer "curl" avec la commande ci-dessous
+Après l'installation, il est recommandé d'installer "curl", si l'on veut pouvoir lancer les connexion web de puis le navigater:
 
 ```
 $ sudo apt install curl
@@ -306,10 +312,32 @@ $ sudo a2ensite 001-cyberias
          
 * Pour éviter les érreurs ``FORBIDEN`` à cause de l'absance du fichier ou plutôt de lien symbolique de **rewrite** dans ``mods-enabled``, nous avons activer le module rewrite.
 
+  * Le ficher rewrite est absent du dossier **mods-enabled**
+
+```
+ls mods-enabled | grep -i 'rewrite'
+ou
+ls /etc/apache2/mods-enabled | grep -i 'rewrite'
+```
+
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/12.png)
-	    
+
+  * Il fait bien parti des modules apache
+
+```
+ls mods-available | grep -i 'rewrite'
+ou
+ls /etc/apache2/mods-available | grep -i 'rewrite'
+```
+
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/13.png)
-            
+
+  * Activons le module **rewrite**
+
+```
+sudo a2mond rewrite
+```
+
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/14.png)
       
 * Nous avons modifier le fichier de configuration de la page par defaut afin qu'elle pointe ver notre site.
@@ -323,7 +351,7 @@ $ sudo a2ensite 001-cyberias
   * pour que nos modification soit prise en compte, nous devons redemarrer notre serveur:
 
 ```
-$ sudo systemctl reload apache2
+sudo systemctl reload apache2
 ```
 
 ![apacheserver](Capture%20d'%C3%A9cran/Apacheserver/21.png)
