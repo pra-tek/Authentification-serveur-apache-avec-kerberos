@@ -518,16 +518,16 @@ curl --negotiate -u : 192.168.111.134
 
 # Réference de travail
 
- * Pour la présentation sur github
+ * Mlle **Yorsa** pour la présentation sur github
     
     * [Yorsa270](https://github.com/yosra270/postgresql-auth-with-kerberos/)
  
- * Mr Souheib Yousfi de la chaine **Techwall** pour l'introduction à kerberos:
+ * Mr **Souheib Yousfi** de la chaine [Techwall](https://www.youtube.com/@TechWall) pour l'introduction à kerberos:
     
     * [Théorique](https://youtu.be/DxlzvDNgkFg)
     
     * [Pratique](https://youtu.be/vx2vIA2Ym14)
 
-* La chaine **Grafikart** pour l'installation, la configuration et mise en place d'un server web Apache2:
+* La chaine [Grafikart](https://www.youtube.com/@grafikart) pour l'installation, la configuration et mise en place d'un server web Apache2:
     
     * [Mettre en place un server web apache](https://youtu.be/arVwa7jvp5M)
